@@ -1,0 +1,52 @@
+/* Reset some default spacing */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  /* Set a vibrant background with a gradient */
+  body {
+    background: linear-gradient(135deg, #74ABE2, #5563DE);
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    overflow: hidden;
+  }
+  
+  /* Center content both vertically and horizontally */
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  /* Style for the main header with fade-in animation */
+  h1 {
+    font-size: 3em;
+    margin: 0.5em 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 2s forwards;
+  }
+  
+  /* Subtitle styling with a delayed fade-in */
+  .subtitle {
+    font-size: 1.2em;
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 2s forwards;
+    animation-delay: 1s;
+  }
+  
+  /* Define fadeIn keyframes */
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
