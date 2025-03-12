@@ -1,143 +1,126 @@
-Hosting website using AWS EC2
+# Deploying a Website on AWS EC2 with Apache 🚀
 
-1. Launch an EC2 Instance
-Go to the AWS Management Console and navigate to EC2.
-Click Launch Instance and choose an Amazon Linux 2 or Ubuntu image.
-Choose an Instance Type (e.g., t2.micro for free tier).
-Configure the instance, then create a Key Pair (download it to your computer).
-Launch the instance.
-2. Access the EC2 Instance via SSH
-Open your terminal (Windows: Git Bash, Mac/Linux: Terminal).
-Navigate to the folder containing the key pair (e.g., WebServer.pem).
-Change the permissions of the key:
-bash
-CopyEdit
+## **Overview** 📌
+This guide walks you through the process of deploying a website on an AWS EC2 instance using Apache as the web server. You'll learn how to set up an EC2 instance, install Apache, clone your website from GitHub, and make it accessible via a public IP.
+
+---
+## **Prerequisites** 🛠️
+Before starting, ensure you have:
+- An **AWS account** with access to EC2.
+- An **SSH client** (e.g., Git Bash for Windows, Terminal for Mac/Linux).
+- A **GitHub repository** containing your website files.
+- A downloaded **key pair (.pem file)** for SSH access.
+
+---
+## **1️⃣ Launch an EC2 Instance** ⚡
+1. **Go to** [AWS EC2 Console](https://aws.amazon.com/ec2/).
+2. Click **Launch Instance** and choose **Amazon Linux 2** or **Ubuntu**.
+3. Select an **Instance Type** (e.g., `t2.micro` for Free Tier).
+4. **Configure instance**, then create a **Key Pair** (Download the `.pem` file).
+5. Click **Launch Instance**.
+
+---
+## **2️⃣ Access the EC2 Instance via SSH** 🔑
+```bash
+# Navigate to the key pair folder
+cd path/to/key-pair
+
+# Change key permissions for security
 chmod 400 WebServer.pem
-Explanation: This ensures the private key is secure and can be used for SSH access.
-SSH into the EC2 instance:
-bash
-CopyEdit
+
+# Connect to your EC2 instance (Replace <EC2_Public_IP> with actual IP)
 ssh -i "WebServer.pem" ubuntu@<EC2_Public_IP>
-Replace <EC2_Public_IP> with your EC2 instance's public IP address.
-3. Update and Install Apache2
-Once you are logged in to your EC2 instance, follow these steps:
-Update the system:
-bash
-CopyEdit
+```
+---
+## **3️⃣ Update & Install Apache Web Server** 🌐
+```bash
+# Update package lists
 sudo apt update && sudo apt upgrade -y
-Explanation: This command updates the package lists for upgrades of all installed packages.
-Install Apache Web Server:
-bash
-CopyEdit
+
+# Install Apache
 sudo apt install apache2 -y
-Explanation: Installs the Apache2 web server on your EC2 instance.
-4. Create a Directory for the Website
-Create a website directory in the home folder:
-bash
-CopyEdit
+```
+
+---
+## **4️⃣ Set Up the Website Directory** 📂
+```bash
+# Create a new directory for website files
 mkdir ~/website
-Explanation: Creates a folder named website in the home directory to store your website files.
-Navigate to the website directory:
-bash
-CopyEdit
 cd ~/website
+```
 
-
-5. Clone the GitHub Repository
-Clone the repository containing the website files from GitHub:
-bash
-CopyEdit
+---
+## **5️⃣ Clone the GitHub Repository** 🔄
+```bash
+# Clone your website repo from GitHub
 git clone https://github.com/KCNikhil/EC2-website.git
-Explanation: This command downloads the website's source code from GitHub to the website folder on the EC2 instance.
-Navigate into the cloned repository:
-bash
-CopyEdit
 cd EC2-website
+```
 
-
-6. Start Apache Web Server
-Start the Apache2 web server:
-bash
-CopyEdit
+---
+## **6️⃣ Start and Enable Apache** ⚙️
+```bash
+# Start the Apache web server
 sudo systemctl start apache2
-Explanation: Starts the Apache web server, which will serve your website.
-Enable Apache to start automatically on boot:
-bash
-CopyEdit
+
+# Enable Apache to start on boot
 sudo systemctl enable apache2
-Explanation: Ensures that the Apache server will automatically start when the EC2 instance is rebooted.
-7. Move the Website Files to Apache's Web Directory
-Move the website files to Apache’s default web directory (/var/www/html):
-bash
-CopyEdit
+```
+
+---
+## **7️⃣ Deploy Website Files to Apache Directory** 📤
+```bash
+# Move all files to Apache’s web directory
 sudo mv * /var/www/html/
-Explanation: Moves all files from the EC2-website directory to /var/www/html/, where Apache serves content.
-8. Verify Apache Status (Optional)
-Check Apache's status:
-bash
-CopyEdit
+```
+
+---
+## **8️⃣ Verify Apache Status (Optional)** ✅
+```bash
+# Check if Apache is running
 sudo systemctl status apache2
-Explanation: This checks the current status of Apache, ensuring it's running correctly.
-9. Check the Website in the Browser
-Open a browser and type the public IP of your EC2 instance:
-arduino
-CopyEdit
+```
+
+---
+## **9️⃣ Access the Website in a Browser** 🌍
+Open your web browser and enter:
+```
 http://<EC2_Public_IP>/index.html
-Replace <EC2_Public_IP> with your EC2 instance's public IP address.
-10. Additional Commands for Managing Apache
-Stop Apache Web Server:
-bash
-CopyEdit
+```
+Replace `<EC2_Public_IP>` with your actual EC2 instance public IP.
+
+---
+## **🔹 Additional Apache Management Commands**
+```bash
+# Stop Apache Web Server
 sudo systemctl stop apache2
 
-
-Restart Apache Web Server:
-bash
-CopyEdit
+# Restart Apache Web Server
 sudo systemctl restart apache2
 
-
-Disable Apache from Starting Automatically:
-bash
-CopyEdit
+# Disable Apache from starting automatically
 sudo systemctl disable apache2
+```
 
-
-
-Summary of Commands to Share with Students
-bash
-CopyEdit
-# Step 1: Change key permissions
+---
+## **🎯 Summary of Commands**
+```bash
 chmod 400 WebServer.pem
-
-# Step 2: SSH into EC2 instance
 ssh -i "WebServer.pem" ubuntu@<EC2_Public_IP>
-
-# Step 3: Update EC2 instance
 sudo apt update && sudo apt upgrade -y
-
-# Step 4: Install Apache2 web server
 sudo apt install apache2 -y
-
-# Step 5: Create a directory for the website
-mkdir ~/website
-cd ~/website
-
-# Step 6: Clone the website repository from GitHub
-git clone https://github.com/KCNikhil/EC2-website.git
-cd EC2-website
-
-# Step 7: Start Apache and enable on boot
+mkdir ~/website && cd ~/website
+git clone https://github.com/KCNikhil/EC2-website.git && cd EC2-website
 sudo systemctl start apache2
 sudo systemctl enable apache2
-
-# Step 8: Move website files to Apache's web directory
 sudo mv * /var/www/html/
-
-# Step 9: Check Apache status (optional)
 sudo systemctl status apache2
+```
 
-# Step 10: Access website via browser
-# http://<EC2_Public_IP>/index.html
+---
+## **📌 Conclusion** 🎉
+Your website is now hosted on AWS EC2 with Apache! 🚀
+If you have any issues, check the Apache status, review the error logs, or verify your security group settings in AWS.
 
+🌟 **Happy Hosting!** 🌟
 
